@@ -8,5 +8,30 @@
     "createdAt": "2023-09-20T11:50:43.165Z",
     "version": "6.2.0",
     "commit": "a5360f78b634be4f14eaea996ee4c7afc85a2f48"
+  },
+
+  "bin":	{
+    "md-links":	"./src/cli.js"
+  },  
+  "description": "* [1. Prefácio](#1-prefácio)\r * [2. Resumo do projeto](#2-resumo-do-projeto)\r * [3. Objetivos de aprendizagem](#3-objetivos-de-aprendizagem)\r * [4. Considerações gerais](#4-considerações-gerais)\r * [5. Critérios de aceitação mínimos do projeto](#5-criterios-de-aceitação-mínimos-do-projeto)\r * [6. Entregáveis](#6-entregáveis)\r * [7. Hacker edition](#7-hacker-edition)\r * [8. Guias, dicas e leituras complementares](#8-guias-dicas-e-leituras-complementares)\r * [9. Checklist](#9-checklist)\r * [10. Dividindo o problema - babies steps](#10-dividindo-o-problema)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "test": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
   }
 }
