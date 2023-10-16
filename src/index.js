@@ -1,15 +1,17 @@
-// const chalk = require('chalk');
 const fs = require('fs');
 
-fs.readFile('README.md', 'utf8', (err, data) => {
-  if (err) throw err;
+function extractLinks(filePath, options) {
+  return fs.promises.readFile(filePath, 'utf8').then((data) => {
+    const regex = /\[([^[\]]*?)\]\((https?:\/\/[^\s?#.].[^\s]*)\)/gm;
+    const captures = [...data.matchAll(regex)];
+    const links = captures.map((capture) => ({
+      text: capture[1],
+      url: capture[2],
+      file: filePath,
+    }));
 
-  console.log(data);
-});
+    return links;
+  });
+}
 
-// function soma(a, b) {
-//   return a + b;
-// }
-// console.log(soma(3, 8));
-
-// console.log(chalk.red('Hello world!'));
+module.exports = { extractLinks };
