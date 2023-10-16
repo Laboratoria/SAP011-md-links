@@ -1,22 +1,25 @@
-// const { Promises } = require("dns");
-// const fs = require("fs")
+const fs = require('fs');
+const path = require('path');
 
-// function soma (a, b) {
-//   return a + b
+function readMarkdownFile(filePath) {
+  return new Promise((resolve, reject) => {
+    // Verifique se o arquivo tem extensão .md
+    if (path.extname(filePath) !== '.md') {
+      reject(new Error('O arquivo fornecido não é .md'));
+    } else {
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    }
+  });
+}
 
-// }
-
-// function lerArquivo(caminho) {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(caminho, 'utf8', (err, data) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(data);
-//       }
-//     });
-//   });
-// }
+module.exports = {
+  readMarkdownFile,
+};
 
 
-// module.exports = { soma, lerArquivo};
