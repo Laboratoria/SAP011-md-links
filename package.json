@@ -1,12 +1,24 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
+  "name": "md-links-lauradefreitas",
+  "version": "0.2.0",
   "engines": {
     "node": ">=16.x"
+  },
+  "bin": {
+    "md-links": "./src/cli.js"
   },
   "bootcamp": {
     "createdAt": "2023-09-20T11:50:43.165Z",
     "version": "6.2.0",
     "commit": "a5360f78b634be4f14eaea996ee4c7afc85a2f48"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "scripts": {
+    "test": "jest --coverage"
   }
 }
