@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
@@ -10,7 +11,7 @@ function normalizeURL(url) {
   return url;
 }
 
-function validateLink(link) {
+function validate(link) {
   return new Promise((resolve) => {
     const protocol = link.href.startsWith('https') ? https : http;
     const requestOptions = {
@@ -23,13 +24,13 @@ function validateLink(link) {
         const { statusCode } = res;
 
         if (statusCode >= 200 && statusCode < 400) {
-          resolve({ ...link, status: statusCode, ok: 'ok' });
+          resolve({ ...link, status: statusCode, ok: 'PASS' });
         } else {
-          resolve({ ...link, status: statusCode, ok: 'fail' });
+          resolve({ ...link, status: statusCode, ok: 'FAIL' });
         }
       })
       .on('error', () => {
-        resolve({ ...link, status: 'N/A', ok: 'fail' });
+        resolve({ ...link, status: 'FAIL', ok: 'fail' });
       })
       .end();
   });
@@ -39,7 +40,7 @@ function readMarkdownFile(filePath) {
   return new Promise((resolve, reject) => {
     // Verifica se o arquivo tem extensão .md
     if (path.extname(filePath) !== '.md') {
-      reject(new Error('O arquivo fornecido não é .md'));
+      reject(new Error('Error! File or directory not defined'));
     } else {
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
@@ -66,7 +67,7 @@ function mdLinks(filePath, options) {
         }
 
         if (options && options.validate) {
-          const linkPromises = links.map(validateLink);
+          const linkPromises = links.map(validate);
           Promise.all(linkPromises)
             .then((validatedLinks) => {
               resolve(validatedLinks);
@@ -95,6 +96,6 @@ function mdLinks(filePath, options) {
 module.exports = {
   mdLinks,
   readMarkdownFile,
-  validateLink,
-  normalizeURL,
+  validate,
+  normalizeURL
 };

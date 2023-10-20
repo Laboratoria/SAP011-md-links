@@ -11,25 +11,23 @@ const options = {
 mdLinks(filePath, options)
   .then((result) => {
     if (options.stats) {
-      console.log(chalk.green(`Total: ${result.total}`));
-      console.log(chalk.green(`Unique: ${result.unique}`));
+      console.log(chalk.yellow(`Total: ${result.total}`));
+      console.log(chalk.yellow(`Unique: ${result.unique}`));
       if (options.validate) {
         if (result.broken > 0) {
           console.log(chalk.red(`Broken: ${result.broken}`));
-        } else {
-          console.log(chalk.green(`Broken: ${result.broken}`));
         }
       }
     } else {
       result.forEach((link) => {
-        let output = `${chalk.blue(link.file)} ${chalk.green(link.href)} ${chalk.yellow(link.text)}`;
+        let output = `${chalk.black(link.file)} ${chalk.underline(link.href)} ${chalk.yellow(link.text)}`;
         if (options.validate) {
-          if (link.ok === 'ok') {
-            output += ` ${chalk.green(link.ok)}`;
+          if (link.ok === 'PASS') {
+            output += ` ${chalk.bgGreen(link.ok)}`;
           } else {
-            output += ` ${chalk.red(link.ok)}`;
+            output += ` ${chalk.bgRed(link.status)}`;
           }
-          output += ` ${chalk.gray(link.status)}`;
+          //output += ` ${chalk.dim(link.status)}`;
         }
         console.log(output);
       });
@@ -38,5 +36,3 @@ mdLinks(filePath, options)
   .catch((error) => {
     console.error(chalk.red(error.message));
   });
-
-
