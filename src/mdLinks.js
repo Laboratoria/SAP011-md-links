@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const https = require('https');
 const http = require('http');
 const fs = require('fs');
@@ -16,7 +15,6 @@ function validate(link) {
     const protocol = link.href.startsWith('https') ? https : http;
     const requestOptions = {
       method: 'HEAD',
-      timeout: 5000,
     };
 
     protocol
@@ -26,17 +24,17 @@ function validate(link) {
         if (statusCode >= 200 && statusCode < 400) {
           resolve({ ...link, status: statusCode, ok: 'PASS' });
         } else {
-          resolve({ ...link, status: statusCode, ok: 'FAIL' });
+          resolve({ ...link, status: statusCode, ok: 'ERROR' });
         }
       })
       .on('error', () => {
-        resolve({ ...link, status: 'FAIL', ok: 'fail' });
+        resolve({ ...link, status: 'FAIL', ok: 'FAIL' });
       })
       .end();
   });
 }
 
-function readMarkdownFile(filePath) {
+function readFiles(filePath) {
   return new Promise((resolve, reject) => {
     // Verifica se o arquivo tem extensão .md
     if (path.extname(filePath) !== '.md') {
@@ -55,7 +53,7 @@ function readMarkdownFile(filePath) {
 
 function mdLinks(filePath, options) {
   return new Promise((resolve, reject) => {
-    readMarkdownFile(filePath)
+    readFiles(filePath)
       .then((data) => {
         const links = [];
         const regex = /\[([^\]]+)]\((http[s]?:\/\/[^\)]+)\)/g;
@@ -85,7 +83,7 @@ function mdLinks(filePath, options) {
       const stats = {
         total: links.length,
         unique: uniqueLinks.length,
-        broken: links.filter((link) => link.ok === 'fail').length,
+        broken: links.filter((link) => link.ok === 'FAIL').length,
       };
       return stats;
     }
@@ -95,7 +93,7 @@ function mdLinks(filePath, options) {
 
 module.exports = {
   mdLinks,
-  readMarkdownFile,
+  readFiles,
   validate,
   normalizeURL
 };
